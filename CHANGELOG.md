@@ -2,6 +2,54 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.4.0
+
+Cockle 1.4.0 switches from using WebAssembly command packages built using Emscripten 3.1.73 to Emscripten 4.0.9 that are available on the `emscripten-forge-4x` channel. New functionality includes a new optional `cwd` argument to `IShell.IOptions` to start the shell in a specific directory, and new environment variables for `COCKLE_SHELL_ID` and `COCKLE_BROWSING_CONTEXT_ID`.
+
+([Full Changelog](https://github.com/jupyterlite/cockle/compare/v1.3.0...f8cda0a97853e58209d82238caaa0ee84b6e1879))
+
+### Enhancements made
+
+- Support setting `cwd` in `Shell` constructor `IOptions` [#286](https://github.com/jupyterlite/cockle/pull/286) ([@ianthomas23](https://github.com/ianthomas23))
+- Set env vars `COCKLE_SHELL_ID` and `COCKLE_BROWSING_CONTEXT_ID` [#281](https://github.com/jupyterlite/cockle/pull/281) ([@ianthomas23](https://github.com/ianthomas23))
+- Support pre-colouring of individual table item strings [#274](https://github.com/jupyterlite/cockle/pull/274) ([@ianthomas23](https://github.com/ianthomas23))
+- Update to use emscripten 4.0.9 packages [#261](https://github.com/jupyterlite/cockle/pull/261) ([@ianthomas23](https://github.com/ianthomas23))
+
+### Bugs fixed
+
+- Apply aliases and env vars from constructor options after `cockle-config.json` [#282](https://github.com/jupyterlite/cockle/pull/282) ([@ianthomas23](https://github.com/ianthomas23))
+- Use `PROXYFS` from wasm command if available [#277](https://github.com/jupyterlite/cockle/pull/277) ([@ianthomas23](https://github.com/ianthomas23))
+- Fix paste into terminal command exceeding buffer size [#276](https://github.com/jupyterlite/cockle/pull/276) ([@ianthomas23](https://github.com/ianthomas23))
+- Fix `stderr` redirection to file [#275](https://github.com/jupyterlite/cockle/pull/275) ([@ianthomas23](https://github.com/ianthomas23))
+
+### Maintenance and upkeep improvements
+
+- Fix tests for `vim` 9.2 [#285](https://github.com/jupyterlite/cockle/pull/285) ([@ianthomas23](https://github.com/ianthomas23))
+- Don't run all workflows on forks [#284](https://github.com/jupyterlite/cockle/pull/284) ([@ianthomas23](https://github.com/ianthomas23))
+- Support use of a local CORS proxy in demo [#283](https://github.com/jupyterlite/cockle/pull/283) ([@ianthomas23](https://github.com/ianthomas23))
+- Add `git clone` test using local CORS proxy [#279](https://github.com/jupyterlite/cockle/pull/279) ([@ianthomas23](https://github.com/ianthomas23))
+- Re-enable `git2cpp init` test [#278](https://github.com/jupyterlite/cockle/pull/278) ([@ianthomas23](https://github.com/ianthomas23))
+- Update to `lua` 5.5.0 in tests [#273](https://github.com/jupyterlite/cockle/pull/273) ([@ianthomas23](https://github.com/ianthomas23))
+- Fix dependabot label [#272](https://github.com/jupyterlite/cockle/pull/272) ([@ianthomas23](https://github.com/ianthomas23))
+- Bump actions/upload-artifact from 5 to 6 in the actions group [#271](https://github.com/jupyterlite/cockle/pull/271) ([@ianthomas23](https://github.com/ianthomas23))
+- Bump the actions group with 4 updates [#270](https://github.com/jupyterlite/cockle/pull/270) ([@ianthomas23](https://github.com/ianthomas23))
+- Add dependabot for github actions [#269](https://github.com/jupyterlite/cockle/pull/269) ([@ianthomas23](https://github.com/ianthomas23))
+
+### Documentation improvements
+
+- Fix readme [#280](https://github.com/jupyterlite/cockle/pull/280) ([@ianthomas23](https://github.com/ianthomas23))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyterlite/cockle/graphs/contributors?from=2025-11-27&to=2026-02-27&type=c))
+
+@ianthomas23 ([activity](https://github.com/search?q=repo%3Ajupyterlite%2Fcockle+involves%3Aianthomas23+updated%3A2025-11-27..2026-02-27&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.3.0
 
 Cockle 1.3.0 adds support for getting the current terminal size from external and javascript commands, and adds `IOutput.isTerminal` to check if writing to a terminal or not. There is also a fix for a significant bug handling timeouts using the service worker for stdin when running interactive commands such as `vim`.
@@ -34,8 +82,6 @@ Cockle 1.3.0 adds support for getting the current terminal size from external an
 ([GitHub contributors page for this release](https://github.com/jupyterlite/cockle/graphs/contributors?from=2025-10-15&to=2025-11-27&type=c))
 
 [@ianthomas23](https://github.com/search?q=repo%3Ajupyterlite%2Fcockle+involves%3Aianthomas23+updated%3A2025-10-15..2025-11-27&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.2.0
 
