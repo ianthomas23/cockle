@@ -2,6 +2,27 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.9.1
+
+Cockle 1.9.1 is a bug fix release to address missing files in the 1.9.0 release.
+
+([Full Changelog](https://github.com/jupyterlite/cockle/compare/v1.9.0...4af9868a800f3e3d924e3df85f1be4e3ef823fd1))
+
+### Bugs fixed
+
+- Restore copying of `.d.ts` files into `lib/` during build [#386](https://github.com/jupyterlite/cockle/pull/386) ([@ianthomas23](https://github.com/ianthomas23))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyterlite/cockle/graphs/contributors?from=2026-11-19&to=2026-11-19&type=c))
+
+@ianthomas23 ([activity](https://github.com/search?q=repo%3Ajupyterlite%2Fcockle+involves%3Aianthomas23+updated%3A2026-11-19..2026-11-19&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.9.0
 
 Cockle 1.9.0 features many improvements including switching to the `emscripten/6x` channel on Emscripten-forge, the addition of new commands `awk` and `find`, sharing the file system between wasm commands, and significant enhancements to command-line handling of redirections, tab completion, variable expansion, handling of Ctrl-C and Ctrl-D, and combining commands with `&&` and `||`.
@@ -57,8 +78,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyterlite/cockle/graphs/contributors?from=2026-09-29&to=2026-11-19&type=c))
 
 @Alex-PLACET ([activity](https://github.com/search?q=repo%3Ajupyterlite%2Fcockle+involves%3AAlex-PLACET+updated%3A2026-09-29..2026-11-19&type=Issues)) | @ianthomas23 ([activity](https://github.com/search?q=repo%3Ajupyterlite%2Fcockle+involves%3Aianthomas23+updated%3A2026-09-29..2026-11-19&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyterlite%2Fcockle+involves%3Ajtpio+updated%3A2026-09-29..2026-11-19&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.8.0
 
