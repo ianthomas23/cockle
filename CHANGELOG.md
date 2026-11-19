@@ -2,6 +2,64 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 1.9.0
+
+Cockle 1.9.0 features many improvements including switching to the `emscripten/6x` channel on Emscripten-forge, the addition of new commands `awk` and `find`, sharing the file system between wasm commands, and significant enhancements to command-line handling of redirections, tab completion, variable expansion, handling of Ctrl-C and Ctrl-D, and combining commands with `&&` and `||`.
+
+([Full Changelog](https://github.com/jupyterlite/cockle/compare/v1.8.0...5cc6f097c04053629b4bcf9e1452cf69c019bc36))
+
+### Enhancements made
+
+- Add new env var COCKLE_WASM_CHANNELS to replace default channels when deploying [#383](https://github.com/jupyterlite/cockle/pull/383) ([@ianthomas23](https://github.com/ianthomas23))
+- Add `find` command [#378](https://github.com/jupyterlite/cockle/pull/378) ([@ianthomas23](https://github.com/ianthomas23))
+- Use wasm32 packages built using emscripten 6.0.8 [#376](https://github.com/jupyterlite/cockle/pull/376) ([@ianthomas23](https://github.com/ianthomas23))
+- Improve filename expansion [#375](https://github.com/jupyterlite/cockle/pull/375) ([@Alex-PLACET](https://github.com/Alex-PLACET), [@ianthomas23](https://github.com/ianthomas23))
+- Add support for setting `user` and home directory [#373](https://github.com/jupyterlite/cockle/pull/373) ([@ianthomas23](https://github.com/ianthomas23), [@Alex-PLACET](https://github.com/Alex-PLACET))
+- cockle-config | grep package produced no output fix [#371](https://github.com/jupyterlite/cockle/pull/371) ([@Alex-PLACET](https://github.com/Alex-PLACET), [@ianthomas23](https://github.com/ianthomas23))
+- Support combining commands with && and || [#368](https://github.com/jupyterlite/cockle/pull/368) ([@Alex-PLACET](https://github.com/Alex-PLACET), [@ianthomas23](https://github.com/ianthomas23))
+- Add base32 and base64 commands [#367](https://github.com/jupyterlite/cockle/pull/367) ([@Alex-PLACET](https://github.com/Alex-PLACET), [@ianthomas23](https://github.com/ianthomas23))
+- Add code coverage [#365](https://github.com/jupyterlite/cockle/pull/365) ([@Alex-PLACET](https://github.com/Alex-PLACET), [@ianthomas23](https://github.com/ianthomas23))
+- Add awk command [#364](https://github.com/jupyterlite/cockle/pull/364) ([@Alex-PLACET](https://github.com/Alex-PLACET), [@ianthomas23](https://github.com/ianthomas23))
+- Support Ctrl-D to exit the shell [#363](https://github.com/jupyterlite/cockle/pull/363) ([@jtpio](https://github.com/jtpio), [@ianthomas23](https://github.com/ianthomas23))
+- Add the support of variable definitions and expand [#359](https://github.com/jupyterlite/cockle/pull/359) ([@Alex-PLACET](https://github.com/Alex-PLACET), [@ianthomas23](https://github.com/ianthomas23))
+- Share emscripten filesystem between wasm commands [#356](https://github.com/jupyterlite/cockle/pull/356) ([@ianthomas23](https://github.com/ianthomas23), [@Alex-PLACET](https://github.com/Alex-PLACET))
+- Fix tab completion in middle of a word [#354](https://github.com/jupyterlite/cockle/pull/354) ([@Alex-PLACET](https://github.com/Alex-PLACET), [@ianthomas23](https://github.com/ianthomas23))
+- Add redirections support [#351](https://github.com/jupyterlite/cockle/pull/351) ([@Alex-PLACET](https://github.com/Alex-PLACET), [@ianthomas23](https://github.com/ianthomas23))
+- Add the support of CTRL-C [#346](https://github.com/jupyterlite/cockle/pull/346) ([@Alex-PLACET](https://github.com/Alex-PLACET), [@ianthomas23](https://github.com/ianthomas23))
+
+### Bugs fixed
+
+- Fix invisible characters typed/pasted into command line [#384](https://github.com/jupyterlite/cockle/pull/384) ([@ianthomas23](https://github.com/ianthomas23))
+- Check redirect files before running commands [#372](https://github.com/jupyterlite/cockle/pull/372) ([@ianthomas23](https://github.com/ianthomas23), [@Alex-PLACET](https://github.com/Alex-PLACET))
+- Fix service worker stdin replies being delivered to all pending requests [#360](https://github.com/jupyterlite/cockle/pull/360) ([@jtpio](https://github.com/jtpio), [@ianthomas23](https://github.com/ianthomas23))
+
+### Maintenance and upkeep improvements
+
+- Update README including screenshot prior to 1.9.0 release [#385](https://github.com/jupyterlite/cockle/pull/385) ([@ianthomas23](https://github.com/ianthomas23))
+- Update emscripten-forge/4x channel [#382](https://github.com/jupyterlite/cockle/pull/382) ([@ianthomas23](https://github.com/ianthomas23))
+- Changes to tests following `coreutils` update [#381](https://github.com/jupyterlite/cockle/pull/381) ([@ianthomas23](https://github.com/ianthomas23))
+- Bump codecov/codecov-action from 5 to 7 in the actions group across 1 directory [#379](https://github.com/jupyterlite/cockle/pull/379) ([@ianthomas23](https://github.com/ianthomas23))
+- Upload code coverage to codecov.io [#377](https://github.com/jupyterlite/cockle/pull/377) ([@ianthomas23](https://github.com/ianthomas23), [@Alex-PLACET](https://github.com/Alex-PLACET))
+- Split tokenizer.ts [#370](https://github.com/jupyterlite/cockle/pull/370) ([@Alex-PLACET](https://github.com/Alex-PLACET), [@ianthomas23](https://github.com/ianthomas23))
+- Split shell_impl.ts [#369](https://github.com/jupyterlite/cockle/pull/369) ([@Alex-PLACET](https://github.com/Alex-PLACET), [@ianthomas23](https://github.com/ianthomas23))
+- Update eslint to version 10 [#357](https://github.com/jupyterlite/cockle/pull/357) ([@ianthomas23](https://github.com/ianthomas23), [@Alex-PLACET](https://github.com/Alex-PLACET))
+- Update to typescript 6 [#353](https://github.com/jupyterlite/cockle/pull/353) ([@ianthomas23](https://github.com/ianthomas23), [@Alex-PLACET](https://github.com/Alex-PLACET))
+
+### Documentation improvements
+
+- Add two shells side-by-side to the demo [#362](https://github.com/jupyterlite/cockle/pull/362) ([@ianthomas23](https://github.com/ianthomas23), [@Alex-PLACET](https://github.com/Alex-PLACET))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyterlite/cockle/graphs/contributors?from=2026-09-29&to=2026-11-19&type=c))
+
+@Alex-PLACET ([activity](https://github.com/search?q=repo%3Ajupyterlite%2Fcockle+involves%3AAlex-PLACET+updated%3A2026-09-29..2026-11-19&type=Issues)) | @ianthomas23 ([activity](https://github.com/search?q=repo%3Ajupyterlite%2Fcockle+involves%3Aianthomas23+updated%3A2026-09-29..2026-11-19&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyterlite%2Fcockle+involves%3Ajtpio+updated%3A2026-09-29..2026-11-19&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 1.8.0
 
 Cockle 1.8.0 adds support for multiline inputs at the command prompt, and use of Ctrl-L to clear the screen. There are also improvements in support for asynchronous shared drives in JupyterLite.
@@ -31,8 +89,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyterlite/cockle/graphs/contributors?from=2026-08-10&to=2026-09-29&type=c))
 
 @Alex-PLACET ([activity](https://github.com/search?q=repo%3Ajupyterlite%2Fcockle+involves%3AAlex-PLACET+updated%3A2026-08-10..2026-09-29&type=Issues)) | @ianthomas23 ([activity](https://github.com/search?q=repo%3Ajupyterlite%2Fcockle+involves%3Aianthomas23+updated%3A2026-08-10..2026-09-29&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyterlite%2Fcockle+involves%3Ajtpio+updated%3A2026-08-10..2026-09-29&type=Issues)) | @martinRenou ([activity](https://github.com/search?q=repo%3Ajupyterlite%2Fcockle+involves%3AmartinRenou+updated%3A2026-08-10..2026-09-29&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 1.8.0-a1
 
