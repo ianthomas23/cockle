@@ -40,7 +40,10 @@ export class SharedArrayBufferMainIO extends MainIO implements IMainIO {
   private async _handleStdin(): Promise<void> {
     const timeoutMs = SAB.decodeTimeout(Atomics.load(this._intArray, SAB.TIMEOUT_INDEX));
     const result = await this._handleStdinImpl(timeoutMs);
-    if (typeof result === 'string') {
+    if (result === null) {
+      Atomics.store(this._intArray, SAB.RESULT_TYPE_INDEX, SAB.EOF_RESULT);
+      this._finishRequest();
+    } else if (typeof result === 'string') {
       await this._sendResult(result);
     } else {
       this._sendSignals(result);
@@ -97,8 +100,10 @@ export class SharedArrayBufferMainIO extends MainIO implements IMainIO {
 
   private _finishRequest(): void {
     Atomics.store(this._intArray, SAB.REQUEST_INDEX, SAB.NO_REQUEST_VALUE);
-    this._waitForRequest(); // Start listening for next request.
+    // Notify the worker before listening for the next request, as otherwise the notify may wake
+    // the new listener rather than the worker.
     Atomics.notify(this._intArray, SAB.REQUEST_INDEX, 1);
+    this._waitForRequest();
   }
 
   private _waitForRequest(): void {

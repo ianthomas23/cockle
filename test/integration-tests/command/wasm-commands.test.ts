@@ -168,27 +168,59 @@ test.describe('wasm-test', () => {
     }) => {
       test.skip(stdinOption === 'sab' && !supportsSAB, 'SAB not available');
       const output = await page.evaluate(async stdinOption => {
-        const { keys, shellSetupEmpty, terminalInput } = globalThis.cockle;
+        const { keys, shellSetupEmpty, terminalInput, terminalInputUpperCaseReply } =
+          globalThis.cockle;
         const { shell, output } = await shellSetupEmpty({ stdinOption });
         const cmd = shell.inputLine('wasm-test stdinchar');
-        await terminalInput(shell, ['a', 'B', ' ', 'c', keys.EOT]);
+        await terminalInputUpperCaseReply(shell, output, ['a', 'B', ' ', 'c']);
+        await terminalInput(shell, [keys.EOT], 0);
         await cmd;
         return output.text;
       }, stdinOption);
-      expect(output).toMatch(/^wasm-test stdinchar\r\naABB {2}cC\r\n/);
+      expect(output).toMatch(/^wasm-test stdinchar\r\naABB {2}cC\^D\r\n/);
     });
 
     test(`should read unicode from stdin via ${stdinOption}`, async ({ page, supportsSAB }) => {
       test.skip(stdinOption === 'sab' && !supportsSAB, 'SAB not available');
       const output = await page.evaluate(async stdinOption => {
-        const { keys, shellSetupEmpty, terminalInput } = globalThis.cockle;
+        const { keys, shellSetupEmpty, terminalInput, terminalInputUpperCaseReply } =
+          globalThis.cockle;
         const { shell, output } = await shellSetupEmpty({ stdinOption });
         const cmd = shell.inputLine('wasm-test stdinchar');
-        await terminalInput(shell, ['a', 'B', '🎉', 'c', keys.EOT]);
+        await terminalInputUpperCaseReply(shell, output, ['a', 'B', '🎉', 'c']);
+        await terminalInput(shell, [keys.EOT], 0);
         await cmd;
         return output.text;
       }, stdinOption);
-      expect(output).toMatch(/^wasm-test stdinchar\r\naABB🎉🎉cC\r\n/);
+      expect(output).toMatch(/^wasm-test stdinchar\r\naABB🎉🎉cC\^D\r\n/);
+    });
+
+    test(`should read a burst of characters from stdin via ${stdinOption}`, async ({
+      page,
+      supportsSAB
+    }) => {
+      test.skip(stdinOption === 'sab' && !supportsSAB, 'SAB not available');
+      const letters = 'abcdefghijklmnopqrstuvwxyz'.repeat(16);
+      const output = await page.evaluate(
+        async ({ stdinOption, letters }) => {
+          const { keys, shellSetupEmpty, terminalInput, terminalInputUpperCaseReply } =
+            globalThis.cockle;
+          const { shell, output } = await shellSetupEmpty({ stdinOption });
+          const cmd = shell.inputLine('wasm-test stdinchar');
+          // Wait for a reply so that the command is reading a character at a time.
+          await terminalInputUpperCaseReply(shell, output, ['1']);
+          for (const letter of letters) {
+            shell.input(letter); // Not awaited, so that the letters are queued.
+          }
+          await terminalInput(shell, [keys.EOT], 0);
+          await cmd;
+          return output.text;
+        },
+        { stdinOption, letters }
+      );
+      // The command replies to each letter with its upper case equivalent.
+      const replies = output.replace('^D', '').replace(/[^A-Z]/g, '');
+      expect(replies).toBe(letters.toUpperCase());
     });
 
     test(`should call SIGWINCH handler when size changes whilst reading from stdin via ${stdinOption}`, async ({
@@ -199,7 +231,7 @@ test.describe('wasm-test', () => {
       const output = await page.evaluate(async stdinOption => {
         const { delay, keys, shellSetupEmpty, terminalInput } = globalThis.cockle;
         const { shell, output } = await shellSetupEmpty({ stdinOption });
-        const cmd = shell.inputLine('wasm-test onsize stdin');
+        const cmd = shell.inputLine('wasm-test onsignal stdin');
         await terminalInput(shell, ['a', '\n']);
         await delay(100);
         // Do not await setSize as it does not resolve until wasm-test exits, as the worker is
@@ -210,7 +242,7 @@ test.describe('wasm-test', () => {
         return output.text;
       }, stdinOption);
       expect(output).toMatch(
-        /^wasm-test onsize stdin\r\na\r\nA\r\nonsize: rows 12 x columns 43\r\nb\r\nB\r\n/
+        /^wasm-test onsignal stdin\r\na\r\nA\r\nonsignal: SIGWINCH rows 12 x columns 43\r\nb\r\nB\r\n/
       );
     });
   });
