@@ -12,7 +12,7 @@ jobs:
       contains(github.event.comment.body, 'please update snapshots')
     runs-on: ubuntu-latest
     permissions:
-      actions: read
+      actions: write # To approve workflow runs.
       contents: write
       pull-requests: write
     concurrency:
@@ -77,6 +77,7 @@ jobs:
           ref: ${{ steps.pr.outputs.head_sha }}
 
       - name: Update snapshots
+        id: update
         env:
           HEAD_REF: ${{ steps.pr.outputs.head_ref }}
           HEAD_SHA: ${{ steps.pr.outputs.head_sha }}
@@ -104,11 +105,35 @@ jobs:
             echo "Could not push to \`$HEAD_REF\`. It may have new commits since the visual tests ran, or 'Allow edits by maintainers' may not be enabled on this pull request." > "$RUNNER_TEMP/message.md"
             exit 1
           fi
+          echo "pushed_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
           {
             echo "Updated snapshots in $(git rev-parse --short HEAD):"
             git diff --name-only HEAD~1 HEAD | sed 's/^/- `/; s/$/`/'
           } > "$RUNNER_TEMP/message.md"
+
+      - name: Approve workflow runs for the new commit
+        # Only a push to a fork creates workflow runs that need approval.
+        if: steps.update.outputs.pushed_sha && steps.pr.outputs.head_repo != github.repository
+        env:
+          PUSHED_SHA: ${{ steps.update.outputs.pushed_sha }}
+        run: |
+          # The new commit only adds screenshots to a commit whose workflows have already run,
+          # and was requested by a user with write access, so approve its workflow runs.
+          for attempt in $(seq 1 12); do
+            sleep 5
+            run_ids=$(gh api "repos/$GH_REPO/actions/runs?head_sha=$PUSHED_SHA&status=action_required" \
+              --jq '.workflow_runs[].id') || true
+            [ -n "$run_ids" ] && break
+          done
+
+          failed=0
+          for run_id in $run_ids; do
+            gh api --method POST "repos/$GH_REPO/actions/runs/$run_id/approve" || failed=1
+          done
+          if [ -z "$run_ids" ] || [ "$failed" = 1 ]; then
+            printf '\nWorkflow runs for the new commit may need approving manually.\n' >> "$RUNNER_TEMP/message.md"
+          fi
 
       - name: Report result
         if: always()
